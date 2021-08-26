@@ -1,4 +1,6 @@
-const url = "https://actorlist-3452.restdb.io/rest/actors";
+window.addEventListener("load", start);
+
+let url = `https://actorlist-3452.restdb.io/rest/actors?fetchchildren=true`;
 
 const options = {
   headers: {
@@ -7,31 +9,35 @@ const options = {
   },
 };
 
-fetch(url, options)
-  .then((response) => {
-    if (!response.ok) {
-      throw Error(response.statusText);
-    }
-    return response.json();
-  })
+function start() {
+  fetch(url, options)
+    .then((response) => {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response.json();
+    })
 
-  .then((data) => {
-    showActor(data);
-  })
+    .then((data) => {
+      showActor(data);
+    })
 
-  .catch((e) => {
-    console.error("Error", e.message);
-  });
+    .catch((e) => {
+      console.error("Error", e.message);
+    });
+}
 
 function showActor(actors) {
   actors.forEach((actors) => {
-    // console.log(product);
     const template = document.querySelector("template").content;
-    const clone = template.cloneNode(true);
+    const actorsClone = template.cloneNode(true);
 
-    clone.querySelector("h1").textContent = actors.fullname;
+    actorsClone.querySelector(".actor_link").textContent = actors.fullname;
+    actorsClone.querySelector(
+      ".actor_link"
+    ).href = `actor_details.html?actor=${actors._id}`;
 
     const mainEl = document.querySelector("main");
-    mainEl.appendChild(clone);
+    mainEl.appendChild(actorsClone);
   });
 }
