@@ -33,9 +33,15 @@ function showActor(actors) {
     const actorsClone = template.cloneNode(true);
 
     actorsClone.querySelector(".actor_link").textContent = actors.fullname;
-    actorsClone.querySelector(
-      ".actor_link"
-    ).href = `actor_details.html?actor=${actors._id}`;
+    // actorsClone.querySelector(
+    //   ".actor_link"
+    // ).href = `actor_details.html?actor=${actors._id}`;
+
+    actorsClone
+      .querySelector(".actor_link")
+      .addEventListener("click", function () {
+        alert(actors.movie);
+      });
 
     const mainEl = document.querySelector("main");
     mainEl.appendChild(actorsClone);
